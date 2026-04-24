@@ -1,12 +1,20 @@
 async function main() {
+  console.log("🚀 Deploying Greeter to Base...");
+
   const Greeter = await ethers.getContractFactory("Greeter");
   const greeter = await Greeter.deploy("Hello from Base! 👋");
-  
+
   await greeter.waitForDeployment();
-  console.log("Greeter deployed to:", await greeter.getAddress());
+
+  const address = await greeter.getAddress();
+  console.log("✅ Greeter deployed successfully!");
+  console.log("📍 Contract Address:", address);
+  console.log("🔗 View on Basescan: https://sepolia.basescan.org/address/" + address);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error("❌ Deployment failed:", error);
+    process.exitCode = 1;
+  });
